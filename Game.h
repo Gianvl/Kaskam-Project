@@ -3,35 +3,41 @@
 
 #include "Character.h"
 
+#include <locale>
+#include <cstdlib>
+#include <ctime>
+#include <random>
+
+
 class Game
 {
+    private:
+        bool _playing;
+        bool _newGame;
+        Character* _character;
+
     public:
 
     //CONSTRUCTORS & DESTRUCTORS
         Game();
-        virtual ~Game();
-    //METODS
-        bool getPlaying()const;
+        ~Game(){}
+
+    ///METODS
+
+        //STATIC
+        static float normalF(float mid, float desv);
+
+        //COMMON
+        inline bool getPlaying()const {return _playing;}
         void play();
         void setCharacter();
         int menu()const;
-
-        void travel();
-        void battle();
-        //void fight(const Enemy* x);
-        void event();
-        void shop();
-        void boss();
-
-        void rest();
         void lore()const;
         void death();
 
-    private:
-        bool playing;
-        bool newGame;
-        int points;
-        Character* character;
+        int clasSpeach()const;
+        char sexSpeach()const;
+
 };
 
 #endif // GAME_H
