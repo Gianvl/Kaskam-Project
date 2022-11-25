@@ -1,9 +1,8 @@
 #ifndef ARMOR_H
 #define ARMOR_H
 
-#include <iostream>
 #include <string>
-#include <string.h>
+#include <iostream>
 
 using namespace std;
 
@@ -11,62 +10,57 @@ class Armor
 {
     public:
         //CONSTRUCTORS & DESTRUCTORS
-        Armor();
-        virtual ~Armor();
+        Armor(const string& name, int defense);
+        virtual inline ~Armor(){}
+
+        //STATIC
+        static Armor* armorDrop();
 
         //METODS
-        virtual int getDef() = 0;
+        virtual float getDef()const;
         virtual void show()const;
         virtual int sell()const = 0;
 
     protected:
-        int defense;
-        string name;
+        string _name;
+        float _defense;
 
 };
 
-//ARMORS
 
+///ARMORS
+
+//K-SA-K
 class Ksak : public Armor
 {
     public:
         //CONSTRUCTORS & DESTRUCTORS
         Ksak();
+        inline ~Ksak(){}
+
 
         //METODS
-        int getDef();
-        int sell()const;
+        inline int sell()const {return 0;}
 
 };
 
-class windBreaker : public Armor
+//WIND BREAKER
+class WindBreaker : public Armor
 {
     public:
         //CONSTRUCTORS & DESTRUCTORS
-        windBreaker();
+        WindBreaker();
+        inline ~WindBreaker(){}
 
         //METODS
-        int getDef();
+        float getDef();
         void show()const;
-        int sell()const;
+        inline int sell()const {return _uses*5;}
 
     private:
-        int uses;
-        int usesMax;
+        int _uses;
+        int _usesMax;
 };
 
-/*class  : public Armor
-{
-    public:
-        //CONSTRUCTORS & DESTRUCTORS
-        Casaca();
-
-        //METODS
-        int getDef();
-
-    private:
-        int uses;
-        int usesMax;
-};*/
 
 #endif // ARMOR_H
