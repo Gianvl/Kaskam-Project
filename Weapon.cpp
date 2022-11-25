@@ -1,107 +1,118 @@
 #include "Weapon.h"
+#include "Game.h"
 
-Weapon::Weapon()
+Weapon::Weapon(const string& name, int damage)
+:_name(name), _damage(damage)
+{}
+
+//STATIC
+
+Weapon* Weapon::weaponDrop();
 {
-    //ctor
+
 }
 
-Weapon::~Weapon()
+float Weapon::getDmg()const
 {
-    //dtor
+    return Game::normalF(_damage, 3.3);
 }
 
 void Weapon::show()const
 {
-    cout << "WEAPON: "   << this->name   << endl
-         << "DAMAGE: " << this->damage << endl;
+    cout << "WEAPON: "   << _name      << "\t\t"
+         << "DAMAGE: "   << _damage    << endl;
 }
 
 
 //HANDS
 
 Hands::Hands()
-:Weapon()
-{
-    this->name = "Hands";
-    this->damage = 15;
-}
-
-int Hands::getDmg()
-{
-    return this->damage;
-}
-
-int Hands::sell()const
-{
-    return 0;
-}
+:Weapon("Hands", 10.0)
+{}
 
 //MOCHO
 
 Mocho::Mocho()
-:Weapon()
+:Weapon("Mocho", 42.0)
 {
-    this->name = "Mocho";
-    this->damage = 50;
-    this->uses = 2;
-    this->usesMax = 2;
-    this->ammo = 0;
-    this->ammoMax = 2;
+    _uses = 2;
+    _usesMax = 2;
+    _ammo = 0;
+    _ammoMax = 2;
 }
 
-int Mocho::getDmg()
+float Mocho::getDmg()
 {
-    if(ammo > 0 && uses > 0)
-        return damage;
+    if(_ammo > 0 && _uses > 0)
+    {
+        _uses--;
+        _ammo--;
+        return Weapon::getDmg();
+    }
+
     else
-        cout << (uses <= 0 ? "WEAPON BROKEN!" : "NO AMMO!") << endl;
+        cout << (_uses <= 0 ? "WEAPON BROKEN!" : "NO AMMO!") << endl;
     return 0;
 }
 
 void Mocho::show()const
 {
     Weapon::show();
-    cout << "AMMO: " << this->ammo << endl;
-    cout << "USES LEFT: ";
-    cout << (uses < 0 ? 0 : uses)  << endl;
+    cout << "AMMO: "      << _ammo  << "\t\t";
+    cout << "USES LEFT: " << _uses  << endl;
 }
 
-int Mocho::sell()const
-{
-    return (uses*10) + (ammo* 5);
-}
 
-//SWORD OF ARUOR
+//SWORD OF ARUZOR
 
 swordOfAruzor::swordOfAruzor()
-:Weapon()
+:Weapon("Sword Of Aruzor", 32.0)
 {
-    this->name = "Sword Of Aruzor";
-    this->damage = 40;
-    this->uses = 5;
-    this->usesMax = 5;
+    _uses = 5;
+    _usesMax = 5;
 }
 
-int swordOfAruzor::getDmg()
+float swordOfAruzor::getDmg()
 {
-    if(uses <= 0)
+    if(_uses <= 0)
     {
         cout << "WEAPON BROKEN!" << endl;
         return 0;
     }
-    this->uses -= 1;
-    return this->damage;
+    _uses--;
+    return Weapon::getDmg();
 }
 
 void swordOfAruzor::show()const
 {
     Weapon::show();
-    cout << "USES LEFT: ";
-    cout << (uses <= 0 ? 0 : uses) << endl;
+    cout << "USES LEFT: " << _uses << endl;
 }
 
-int swordOfAruzor::sell()const
+
+//KaskOT
+
+KaskOT::KaskOT()
+:Weapon("Kask-OT", 18.5)
 {
-    return (uses*5);
+    _uses = 3;
+    _usesMax = 5;
 }
 
+float KaskOT::getDmg()
+{
+    if(_uses > 0)
+    {
+        _uses--;
+        return Weapon::getDmg();
+    }
+
+    cout << "NO AMMO" << endl;
+    return 0;
+}
+
+void KaskOT::show()const
+{
+    Weapon::show();
+    cout << "USES LEFT: " << _uses << endl;
+}
