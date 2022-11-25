@@ -1,71 +1,120 @@
-#include "Armor.h"
+#include "Weapon.h"
+#include "Game.h"
 
-Armor::Armor()
+Weapon::Weapon(const string& name, int damage)
+:_name(name), _damage(damage)
+{}
+
+//STATIC
+
+Weapon* Weapon::weaponDrop();
 {
-    //ctor
+
 }
 
-Armor::~Armor()
+float Weapon::getDmg()const
 {
-    //dtor
+    return Game::normalF(_damage, 3.3);
 }
 
-void Armor::show()const
+void Weapon::show()const
 {
-    cout << "ARMOR: "   << this->name      << endl
-         << "DEFENSE: " << this->defense   << endl;
+    cout << "WEAPON: "   << _name      << "\t\t"
+         << "DAMAGE: "   << _damage    << endl;
 }
 
 
-//KSAK
+//HANDS
 
-Ksak::Ksak()
-:Armor()
+Hands::Hands()
+:Weapon("Hands", 10.0)
+{}
+
+//MOCHO
+
+Mocho::Mocho()
+:Weapon("Mocho", 42.0)
 {
-    this->defense = 5;
-    this->name = "K-sa-K";
+    _uses = 2;
+    _usesMax = 2;
+    _ammo = 0;
+    _ammoMax = 2;
 }
 
-int Ksak::getDef()
+float Mocho::getDmg()
 {
-    return this->defense;
-}
+    if(_ammo > 0 && _uses > 0)
+    {
+        _uses--;
+        _ammo--;
+        return Weapon::getDmg();
+    }
 
-int Ksak::sell()const
-{
+    else
+        cout << (_uses <= 0 ? "WEAPON BROKEN!" : "NO AMMO!") << endl;
     return 0;
 }
 
-
-//WIND BREAKER
-
-windBreaker::windBreaker()
-:Armor()
+void Mocho::show()const
 {
-    this->defense = 15;
-    this->name = "Wind Breaker";
-    this->uses = 5;
-    this->usesMax = 5;
+    Weapon::show();
+    cout << "AMMO: "      << _ammo  << "\t\t";
+    cout << "USES LEFT: " << _uses  << endl;
 }
 
-int windBreaker::getDef()
+
+//SWORD OF ARUZOR
+
+swordOfAruzor::swordOfAruzor()
+:Weapon("Sword Of Aruzor", 32.0)
 {
-    if(this->uses <= 0)
+    _uses = 5;
+    _usesMax = 5;
+}
+
+float swordOfAruzor::getDmg()
+{
+    if(_uses <= 0)
     {
-        cout << "ARMOR BROKEN!" << endl;
+        cout << "WEAPON BROKEN!" << endl;
         return 0;
     }
-    this->uses -= 1;
-    return defense;
+    _uses--;
+    return Weapon::getDmg();
 }
 
-void windBreaker::show()const
+void swordOfAruzor::show()const
 {
-    Armor::show();
-    cout << "USES LEFT: " << this->uses << endl;
+    Weapon::show();
+    cout << "USES LEFT: " << _uses << endl;
 }
 
-int windBreaker::sell()const
+
+//KaskOT
+
+KaskOT::KaskOT()
+:Weapon("Kask-OT", 18.5)
 {
-    return (uses*5);
+    _uses = 3;
+    _usesMax = 5;
 }
+
+float KaskOT::getDmg()
+{
+    if(_uses > 0)
+    {
+        _uses--;
+        return Weapon::getDmg();
+    }
+
+    cout << "NO AMMO" << endl;
+    return 0;
+}
+
+void KaskOT::show()const
+{
+    Weapon::show();
+    cout << "USES LEFT: " << _uses << endl;
+}
+
+
