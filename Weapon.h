@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <string.h>
+#include <vector>
 
 using namespace std;
 
@@ -11,72 +11,94 @@ class Weapon
 {
     public:
         //CONSTRUCTORS & DESTRUCTORS
-        Weapon();
-        virtual ~Weapon();
+        Weapon(const string& name, int damage);
+        virtual inline ~Weapon(){}
+
+        //STATIC
+        static Weapon* weaponDrop();
 
         //METODS
-        virtual int getDmg() = 0;
+        virtual float getDmg()const;
         virtual void show()const;
         virtual int sell()const = 0;
 
     protected:
-        int damage;
-        string name;
+        string _name;
+        float _damage;
 
 };
 
 
+///WEAPONS
 
+//HANDS
 class Hands : public Weapon
 {
     public:
         //CONSTRUCTORS
         Hands();
+        inline ~Hands(){}
 
         //METODS
-        int getDmg();
-        int sell()const;
+        inline int sell()const {return 0;}
+
   };
 
+//MOCHO
 class Mocho : public Weapon
 {
     public:
         //CONSTRUCTORS
         Mocho();
+        inline ~Mocho(){}
 
         //METODS
-        int getDmg();
+        float getDmg();
         void show()const;
-        int sell()const;
+        inline int sell()const{return (_uses*10) + (_ammo* 5);}
 
     private:
-        int uses;
-        int usesMax;
-        int ammo;
-        int ammoMax;
+        int _uses;
+        int _usesMax;
+        int _ammo;
+        int _ammoMax;
 };
 
+//SWORD OF ARUZOR
 class swordOfAruzor : public Weapon
 {
     public:
         //CONSTRUCTORS
         swordOfAruzor();
+        inline ~swordOfAruzor(){}
 
         //METODS
-        int getDmg();
+        float getDmg();
         void show()const;
-        int sell()const;
+        inline int sell()const{return (_uses*5);}
 
     private:
-        int uses;
-        int usesMax;
+        int _uses;
+        int _usesMax;
 };
 
-/*class KaskOT : public Weapon
+//KASKOT
+class KaskOT : public Weapon
 {
     public:
         //CONSTRUCTORS
         KaskOT();
-};*/
+        inline ~KaskOT(){}
+
+        //METODS
+        float getDmg();
+        void show()const;
+        inline int sell()const{return (_uses*1);}
+
+    private:
+        int _uses;
+        int _usesMax;
+
+};
 
 #endif // WEAPON_H
